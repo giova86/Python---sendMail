@@ -1,0 +1,10 @@
+{
+    "sender" : "",
+    "receiver" : [""],
+    "receiver_Cc" : [""],
+    "attachment" : {
+        "include" : "False",
+        "path_folder": "",
+        "path_file" : ""
+    }
+}

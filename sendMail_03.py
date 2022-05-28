@@ -1,3 +1,4 @@
+from pickle import TRUE
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -6,8 +7,12 @@ from email import encoders
 from datetime import datetime
 import json
 
+# -- READ SETTINGS ------------------------------------------
 with open('config/server_settings.json', 'r') as f:
     data = json.load(f)
+
+with open('config/contacts_settings.json', 'r') as f:
+    contacts = json.load(f)
 
 # -- SERVER PARAMETERS --------------------------------------
 smtp = data['smtp']
@@ -16,13 +21,14 @@ username = data['username']
 password = data['password']
 
 # -- MESSAGE PARAMETERS -------------------------------------
-sender = 'sender@gmail.com'
-receiver = ['receiver1@gmail.com', 'receiver2@gmail.com']
-receiver_Cc = ['receiver1_Cc@gmail.com', 'receiver2_Cc@gmail.com']
+sender = contacts['sender']
+receiver = contacts['receiver']
+receiver_Cc = contacts['receiver_Cc']
 
 # -- ATTACHMENT ---------------------------------------------
-attachment_path = 'folder_path'
-attachment_file = 'file_name'
+attachment_bool = contacts['attachment']['include']
+attachment_path = contacts['attachment']['path_folder']
+attachment_file = contacts['attachment']['path_file']
 
 # -- BODY ---------------------------------------------------
 body = f'''
@@ -55,19 +61,20 @@ message['Cc'] = ", ".join(receiver_Cc)
 message['Subject'] = "Subject of the Mail"
 message.attach(MIMEText(body, 'html'))
 
-# open the file in bynary
-binary_pdf = open(attachment_path + attachment_file, 'rb')
+if attachment_bool == TRUE:
+    # open the file in bynary
+    binary_pdf = open(attachment_path + attachment_file, 'rb')
 
-payload = MIMEBase('application', 'octate-stream', Name=f"{attachment_file}")
+    payload = MIMEBase('application', 'octate-stream', Name=f"{attachment_file}")
 
-payload.set_payload((binary_pdf).read())
+    payload.set_payload((binary_pdf).read())
 
-# enconding the binary into base64
-encoders.encode_base64(payload)
+    # enconding the binary into base64
+    encoders.encode_base64(payload)
 
-# add header with pdf name
-payload.add_header('Content-Decomposition', 'attachment', filename=attachment_file)
-message.attach(payload)
+    # add header with pdf name
+    payload.add_header('Content-Decomposition', 'attachment', filename=attachment_file)
+    message.attach(payload)
 
 # -- LOGIN --------------------------------------------------
 session = smtplib.SMTP(smtp, port)
@@ -79,6 +86,7 @@ session.login(username, password)
 
 # -- SEND MAIL ----------------------------------------------
 text = message.as_string()
+
 session.sendmail(sender, receiver, text)
 for i in receiver:
     print(f'Mail Sent to {i}')
