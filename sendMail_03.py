@@ -4,12 +4,16 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from datetime import datetime
+import json
+
+with open('config/server_settings.json', 'r') as f:
+    data = json.load(f)
 
 # -- SERVER PARAMETERS --------------------------------------
-smtp = 'smtp.com'
-port = 456
-username = 'admin'
-password = 'password'
+smtp = data['smtp']
+port = data['port']
+username = data['username']
+password = data['password']
 
 # -- MESSAGE PARAMETERS -------------------------------------
 sender = 'sender@gmail.com'
