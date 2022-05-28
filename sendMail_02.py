@@ -60,7 +60,7 @@ payload.set_payload((binary_pdf).read())
 encoders.encode_base64(payload)
 
 # add header with pdf name
-payload.add_header('Content-Decomposition', 'attachment', filename=pdfname)
+payload.add_header('Content-Decomposition', 'attachment', filename=attachment_file)
 message.attach(payload)
 
 # -- LOGIN --------------------------------------------------
