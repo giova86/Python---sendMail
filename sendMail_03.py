@@ -65,8 +65,9 @@ message['To'] = ", ".join(receiver)
 message['Cc'] = ", ".join(receiver_Cc)
 message['Subject'] = "Subject of the Mail"
 message.attach(MIMEText(body, 'html'))
-
-if attachment_bool == TRUE:
+if attachment_bool == "TRUE":
+    print(attachment_bool)
+    print(attachment_path+ attachment_file)
     # open the file in bynary
     binary_pdf = open(attachment_path + attachment_file, 'rb')
 
