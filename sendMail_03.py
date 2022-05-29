@@ -40,12 +40,17 @@ body = f'''
 
             <p>Write HTML text...</p>
             <br>
-
+            <br>
+            <hr>
             <p><i>
             This is an automatically generated email – please do not reply to it. If you have any queries regarding the analysis please email
-            </i></p>
+            </p>
 
-            <i>Contact: <a href= "mailto:mail@hotmail.com">mail@hotmail.com</a></i>
+            <p>Contact: <a href= "mailto:mail@hotmail.com">mail@hotmail.com</a></i></p>
+            <hr>
+            <br>
+            <br>
+            <br>
 
         </body>
     </html>
