@@ -10,7 +10,7 @@ from smtplib import SMTP
 
 def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, port: int,
              receiver_cc: list = None, attachment_path: str = None, attachment_file: str = None,
-             TLS: bool = False, username: str = None, password: str = None):
+             tls: bool = False, username: str = None, password: str = None):
     """
     Function to send mail. 
     
@@ -34,7 +34,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, po
         Path of attachment file
     attachment_file : str, optional
         Attachment file
-    TLS : bool, optional
+    tls : bool, optional
         Defaults to False. Use TRUE for setting TLS
     username : str, optional
         Set the username if the authentication is enabled
@@ -66,7 +66,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, po
 
     session = smtplib.SMTP(smtp, port)
 
-    if TLS == TRUE:
+    if tls == TRUE:
         session.starttls()
 
     if (username is not None) and (password is not None):
@@ -138,7 +138,7 @@ if __name__ == '__main__':
              text=body,
              smtp=smtp,
              port=port,
-             TLS=TRUE,
+             tls=True,
              username=username,
              password=password
              )
