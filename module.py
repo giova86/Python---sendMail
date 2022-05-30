@@ -84,6 +84,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, po
 
 
 if __name__ == '__main__':
+    
     # -- READ SETTINGS ------------------------------------------
     with open('config/server_settings.json', 'r') as f:
         data = json.load(f)
