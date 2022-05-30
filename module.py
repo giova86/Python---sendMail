@@ -1,5 +1,4 @@
 from pickle import TRUE
-from re import T
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -7,8 +6,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 import json
 
-def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, port: int, 
-             receiver_Cc: list = None, attachment_path: str = None, attachment_file: str = None, 
+
+def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, port: int,
+             receiver_cc: list = None, attachment_path: str = None, attachment_file: str = None,
              TLS: bool = False, username: str = None, password: str = None):
     """
     Function to send mail. 
@@ -23,11 +23,11 @@ def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, p
         The subject of the message
     text : str
         The text of the message. HTML language is supported.
-    stmp : str
+    smtp : str
         SMTP of the server
     port : int
         Port number of the server
-    receiver_Cc : list, optional
+    receiver_cc : list, optional
         The email list of the receivers (Carbon Copy)
     attachment_path : str, optional
         Path of attachment file
@@ -43,7 +43,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, p
     message = MIMEMultipart()
     message['From'] = sender
     message['To'] = ", ".join(receiver)
-    if receiver_Cc is not None:
+    if receiver_cc is not None:
         message['Cc'] = ", ".join(receiver_Cc)
     message['Subject'] = subject
     message.attach(MIMEText(text, 'html'))
@@ -54,7 +54,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, p
 
         payload = MIMEBase('application', 'octate-stream', Name=f"{attachment_file}")
 
-        payload.set_payload((binary_pdf).read())
+        payload.set_payload(binary_pdf.read())
 
         # enconding the binary into base64
         encoders.encode_base64(payload)
@@ -69,7 +69,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, p
         session.starttls()
 
     if (username is not None) and (password is not None):
-        #login with mail_id and password
+        # login with mail_id and password
         session.login(username, password)
 
     # -- SEND MAIL ----------------------------------------------
@@ -79,11 +79,9 @@ def sendmail(sender: str, receiver: list, subject: str, text: str,  smtp: str, p
     for i in receiver:
         print(f'Mail Sent to {i}')
     session.quit
-    
 
 
 if __name__ == '__main__':
-    
     # -- READ SETTINGS ------------------------------------------
     with open('config/server_settings.json', 'r') as f:
         data = json.load(f)
