@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import json
+from smtplib import SMTP
 
 
 def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, port: int,
@@ -78,6 +79,7 @@ def sendmail(sender: str, receiver: list, subject: str, text: str, smtp: str, po
     session.sendmail(sender, receiver, text)
     for i in receiver:
         print(f'Mail Sent to {i}')
+
     session.quit
 
 
