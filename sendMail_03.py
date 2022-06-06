@@ -92,7 +92,7 @@ session.login(username, password)
 # -- SEND MAIL ----------------------------------------------
 text = message.as_string()
 
-session.sendmail(sender, receiver, text)
+session.sendmail(sender, receiver+receiver_Cc, text)
 for i in receiver:
     print(f'Mail Sent to {i}')
 session.quit
